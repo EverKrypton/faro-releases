@@ -31,6 +31,19 @@ Windows: use WSL. Android/Termux: `pkg install nodejs-lts` first, then the same 
 faro signup you@example.com     # free key, activated immediately
 ```
 
+You will see exactly what the free plan gives you:
+
+```
+✓ free key created for you@example.com
+
+  Free plan · you@example.com
+  included  $0.20 of model usage per month
+  limits    15 turns per message · 64k context · no subagents
+  nothing is charged. when the allowance is used up, faro stops and tells you.
+
+  upgrade: faro upgrade (card or crypto, activates on you@example.com)
+```
+
 Or, if you were given a key:
 
 ```bash
@@ -38,6 +51,33 @@ faro login FARO-XXXX-XXXX-XXXX-XXXX
 ```
 
 You never need an API key. No provider account, no configuration file to edit.
+
+## When the free allowance runs out
+
+Nothing breaks and nothing is charged. The session is saved and you get:
+
+```
+  You are out of included usage.
+
+  the free allowance for this month is spent. the session is saved, nothing is lost.
+
+  keep going
+    faro upgrade        pro: $12/mo · $99/yr · $249 lifetime
+    faro usage          see exactly what was spent
+
+  pro activates on you@example.com — the same key keeps working, usage is not reset.
+```
+
+## Upgrade
+
+```bash
+faro upgrade              # opens a crypto/card checkout for your account
+faro upgrade --wait <id>  # waits until the payment lands, then confirms
+```
+
+The upgrade applies to **the same key and the same email** — no new key, no
+re-login, and your spend history stays intact. Card and crypto (USDT, BTC, ETH,
+USDC, LTC, TRX) go through the same checkout page.
 
 ## Use
 
@@ -60,7 +100,11 @@ In a session:
 | `/new` | fresh session |
 | `/model <id>` | switch model (warns: resets the cache) |
 | `/undo` | drop the last turn |
+| `/upgrade` | start a checkout without leaving the session |
 | `/exit` | quit |
+
+Ctrl+C cancels a running answer without closing the session. Ctrl+C twice on an
+empty prompt quits.
 
 ## What it does
 
@@ -88,8 +132,9 @@ instead of silently billing you.
 |---|---|
 | `no license on this machine` | `faro signup you@example.com` |
 | `this build cannot be unlocked` | `faro login <key>` again |
+| stuck on a long answer | Ctrl+C cancels it, the session stays alive |
 | `license revoked` | ask for a new key |
-| `insufficient balance` | `faro usage`, then top up or upgrade |
+| `insufficient balance` | `faro upgrade`, or `faro usage` to see the spend |
 | `context ... exceeds the cap` | `/compact` or `faro --new` |
 | `node: command not found` | install Node 20+ |
 | install fails on Android | `pkg install nodejs-lts` first |
