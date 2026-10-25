@@ -3,12 +3,23 @@
 A terminal coding agent. Fast, cache-aware, and it tells you what it costs.
 
 ```
-◆ Faro · cache-aware coding agent
-› add a health route and a test
+  ◆ faro · terminal coding agent
+  Faro-1 · pro · lifetime
+
 → read src/server.ts
-→ edit src/server.ts (1 replacement)
+  · 42 lines · 1| import http from "node:http";
+→ edit src/server.ts
+  · 1 replacement
 → write test/health.test.ts
-· ctx 12.4k/400.0k cache 94.2% in 812 cached 11.3k out 341 $0.0009 left $7.99
+  · 1 line
+
+Added a /health route and one test for it.
+
+╭─────────────────────────────────────────────────────────────────────────────╮
+│ ❯ ask anything · /help for commands                                         │
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
+│ ctx 12.4k/400.0k · cache 94% · spent $0.0009 · left $7.99 · pro               │
+╰─────────────────────────────────────────────────────────────────────────────╯
 ```
 
 ## Install
