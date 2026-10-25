@@ -20,6 +20,9 @@ npm install -g https://github.com/EverKrypton/faro-releases/releases/latest/down
 faro --version
 ```
 
+The download is a sealed binary. It does nothing until you activate a key — there
+is no usable code inside before that.
+
 Windows: use WSL. Android/Termux: `pkg install nodejs-lts` first, then the same command.
 
 ## Get a key
