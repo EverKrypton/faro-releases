@@ -15,6 +15,10 @@ A terminal coding agent. Fast, cache-aware, and it tells you what it costs.
 
 Requires **Node 20 or newer** (`node -v`).
 
+Faro updates itself: when a new release is out, launching it shows a small dialog
+with **Cancel** and **Update**. Update installs in place and restarts — sessions and
+memory stay.
+
 ```bash
 npm install -g https://github.com/EverKrypton/faro-releases/releases/latest/download/faro-agent.tgz
 faro --version
@@ -99,8 +103,10 @@ In a session:
 | `/memory` | what the agent remembers about this project |
 | `/new` | fresh session |
 | `/model <id>` | switch model (warns: resets the cache) |
-| `/undo` | drop the last turn |
+| `/undo` | revert the last turn, including file edits |
+| `/init` | write an `AGENTS.md` for this repo |
 | `/upgrade` | start a checkout without leaving the session |
+| `/update` | check for a new release and install it |
 | `/exit` | quit |
 
 Ctrl+C cancels a running answer without closing the session. Ctrl+C twice on an
@@ -109,19 +115,32 @@ empty prompt quits.
 ## What it does
 
 - **Reads and edits code** with `read`, `write`, `edit`, `glob`, `grep`.
-- **Runs commands** with `bash`, asking first unless you pass `--yolo`.
+- **Runs commands** with `bash`. Safe commands (`git status`, `git diff`, `ls`, `cat`)
+  run without asking; anything else asks once, and `--yolo` skips the question.
+- **Searches the web** with `web_search`, reads pages with `fetch`, produces cited
+  briefings with `research`, and audits a page with `seo`.
 - **Remembers your project** across sessions — build commands, conventions, gotchas.
+- **Follows your `AGENTS.md`** if the repo has one. `/init` writes it for you.
 - **Delegates research** to subagents with their own context, so your session stays small.
-- **Shows the cache hit rate and the cost of every turn.** Most agents hide this; it is the difference between a $12 month and a $200 month.
+- **Undo puts the files back**, not just the conversation. `/undo` reverts the edits.
+- **Shows the cache hit rate and the cost of every turn** in the status bar, always
+  visible at the bottom. Most agents hide this; it is the difference between a $5
+  month and a $200 month.
 
 ## Plans
 
-| | free | pro |
-|---|---|---|
-| included usage | $0.20 / month | $8 / month, then top-ups |
-| turns per message | 15 | 200 |
-| context | 64k | 400k |
-| subagents | — | yes |
+| | free | starter | pro |
+|---|---|---|---|
+| price | $0 | $5 / mo | $12 / mo · $99 / yr · $249 lifetime |
+| included usage | $0.20 / month | $6 / month | $8 / month, then top-ups |
+| turns per message | 15 | 120 | 200 |
+| context | 64k | 200k | 400k |
+| subagents | — | yes | yes |
+
+Usage is metered, not "unlimited": every token costs real money, so a plan includes a
+fixed amount of model usage and then asks you to top up. Nothing is charged without
+your action, and nothing is silently throttled — when you run out, Faro stops and
+says so.
 
 `faro usage` shows exactly what is left. When the balance runs out the agent stops
 instead of silently billing you.
@@ -145,6 +164,12 @@ instead of silently billing you.
 npm uninstall -g faro-agent
 rm -rf ~/.faro
 ```
+
+## Privacy
+
+Faro sends your conversation to the Faro gateway, which forwards it to a model and
+records token counts for billing. It does not record your code or your prompts.
+The client never reveals which model or provider serves a request.
 
 ## License
 
